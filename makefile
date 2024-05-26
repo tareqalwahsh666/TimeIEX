@@ -88,8 +88,6 @@ CLEAN:
 	$(RM) objects/*.o $(BUILD_TARGET) build/*$(DLIB) build/libs*$(DLIB)
 	echo build removed successfully
 
-EXCUTE:
-	./build/$(BUILD_TARGET)
 
 # 				>>>> GENERAL RULES END <<<<
 
