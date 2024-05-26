@@ -1,4 +1,3 @@
-
 /*
 -----------TimeIEX---------------------------------------------------------------------------------------
 ----This software is a program that provides timer, interval timer, smart time manager and stopwatch.----
@@ -19,6 +18,45 @@
 ---------------------------------------------------------------------------------------------------------
 */
 
-#include"application_kernel.hpp"
+#include"common.hpp"
 
-#define Main int main()
+#ifndef __APPLICATION_KERNEL__
+#define __APPLICATION_KERNEL__
+
+namespace APPLICATION_BASE // a namespace contains the framework that runs the program.
+{
+
+    class ApplicationKernel // builds the main window and runs the program because it contains the main loop of the program
+    //                      // It's singleon class. This class can have one instance onlys
+    //                      // It's not thread safe
+    {
+
+        // >>>>public section<<<<
+        public:
+
+            void run(void); // this function runs the program
+
+            // This class can't be cloned or assigned
+            ApplicationKernel(const ApplicationKernel&) = delete;
+            void operator= (const ApplicationKernel&)   = delete;
+
+            static ApplicationKernel* getInstance(void); // returns the class instance address
+
+
+
+        // >>>> private section<<<<
+        private:
+
+            ApplicationKernel(void); // the class constructor is private because it's a singleton class
+
+            static ApplicationKernel* instancePtr; // This pointer contains this class instance adderss in memory
+
+            
+
+
+    };
+}
+
+
+
+#endif

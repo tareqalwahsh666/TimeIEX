@@ -21,4 +21,26 @@
 
 #include"application_kernel.hpp"
 
-#define Main int main()
+using namespace APPLICATION_BASE;
+
+
+void ApplicationKernel::run(void)
+{
+    std::cout << "Hello from the kernel\ns";
+}
+
+ApplicationKernel::ApplicationKernel(void) // application kernel class constuctor
+{
+    
+}
+
+ApplicationKernel* ApplicationKernel::instancePtr = nullptr; // initialize instancePtr pointer
+
+ApplicationKernel* ApplicationKernel::getInstance(void)
+{
+    if(instancePtr==nullptr) // the is no instance created create one and store it's address in a pointer
+    {
+        instancePtr = new ApplicationKernel;
+    }
+    return instancePtr; // return the instnace address from the pointer
+}

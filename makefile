@@ -24,7 +24,7 @@
 # app_name
 BUILD_TARGET 							=build/TimeIEX
 
-# dynamic lib suffix
+# dynamic lib suffix # change it to .dll for windows 
 DLIB 									=.so
 
 
@@ -76,9 +76,9 @@ SRCDIR									=sources/
 # 				>>>> GENERAL RULES START <<<<
 
 #############################################################################
-##### Don't check for these files	 ####	they are labels not files	#####
+##### Don't check for these files	 ####	they are labels not files	###s##
 #############################################################################
-.PHONY: BUILD_SOFTWARE CLEAN 											#####
+.PHONY: BUILD_SOFTWARE CLEAN EXCUTE										#####
 #############################################################################
 # This rule simply builds the program
 BUILD_SOFTWARE: $(BUILD_TARGET)
@@ -87,6 +87,9 @@ BUILD_SOFTWARE: $(BUILD_TARGET)
 CLEAN:
 	$(RM) objects/*.o $(BUILD_TARGET) build/*$(DLIB) build/libs*$(DLIB)
 	echo build removed successfully
+
+EXCUTE:
+	./build/$(BUILD_TARGET)
 
 # 				>>>> GENERAL RULES END <<<<
 
@@ -98,20 +101,37 @@ CLEAN:
 
 #		>>>>	PROGRAM		WORKSPACE	START	<<<<
 
-
-# --->	Main stuff Start	<---
+#Global Variables
 
 # Main Variables
 MAIN_OBJ =$(OBJDIR)main.o
 MAIN_SRC =$(SRCDIR)main.cpp
+# Application kernel variabless
+APPLICATION_KERNEL_OBJ 	=$(OBJDIR)application_kernel.o
+APPLICATION_KERNEL_DLIB =build/application_kernel$(DLIB)
+APPLICATION_KERNEL_SRC	=$(SRCDIR)application_kernel.cpp
+
+
 
 # Main Rules
-$(BUILD_TARGET): $(MAIN_OBJ)
-	$(BUILD) $(MAIN_OBJ) -o $(BUILD_TARGET)
+$(BUILD_TARGET):$(APPLICATION_KERNEL_DLIB) $(MAIN_OBJ) 
+	$(BUILD) $(MAIN_OBJ) -o $(BUILD_TARGET) ./$(APPLICATION_KERNEL_DLIB)
 
 $(MAIN_OBJ): $(MAIN_SRC)
 	$(BUILD_OBJ) $(MAIN_SRC) -o $(MAIN_OBJ)
- 
+
+
+
+
+
+# application kernel rules
+$(APPLICATION_KERNEL_DLIB):$(APPLICATION_KERNEL_OBJ)
+	$(BUILD_DLIB) $(APPLICATION_KERNEL_OBJ) -o $(APPLICATION_KERNEL_DLIB)
+
+$(APPLICATION_KERNEL_OBJ):$(APPLICATION_KERNEL_SRC)
+	$(BUILD_DLIBOBJ) $(APPLICATION_KERNEL_SRC) -o $(APPLICATION_KERNEL_OBJ)
+
+
 
 #		>>>>	PROGRAM		WORKSPACE	END		<<<<
 

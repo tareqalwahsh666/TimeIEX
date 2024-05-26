@@ -18,7 +18,16 @@
 ----   along with this program.  If not, see https://www.gnu.org/licenses/gpl-3.0.txt            	 ----
 ---------------------------------------------------------------------------------------------------------
 */
+#ifndef __COMMON_HPP__ // <===== Prevents multiple inclusion error
+#define __COMMON_HPP__
 
-#include"application_kernel.hpp"
+#include<iostream>
+#include<cmath>
+#include<memory>
+#include<map>
 
-#define Main int main()
+#include<SFML/Graphics.hpp>
+#include<SFML/System.hpp>
+
+
+#endif
