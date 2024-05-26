@@ -1,4 +1,5 @@
-# TimeIEX
+
+/*
 -----------TimeIEX---------------------------------------------------------------------------------------
 ----This software is a program that provides timer, interval timer, smart time manager and stopwatch.----
 ----Copyright (C) 2024  tareqalwahsh666                                                              ----
@@ -16,6 +17,7 @@
 ----  You should have received a copy of the GNU General Public License                          	 ----
 ----   along with this program.  If not, see https://www.gnu.org/licenses/gpl-3.0.txt            	 ----
 ---------------------------------------------------------------------------------------------------------
+*/
 
-# Warning This software is in pre-alpha stage
-# Warning This software is under development and not ready for users consumption
+#include<iostream>
+#define Main int main()

@@ -20,9 +20,9 @@
 */
 
 /*--Includes--*/
-#include<iostream>
+#include"main.hpp"
 
-int main()
+Main
 {
 	std::cout << "Hello TimeIEX\n";
 	return 0;
