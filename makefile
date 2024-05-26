@@ -76,7 +76,7 @@ SRCDIR									=sources/
 # 				>>>> GENERAL RULES START <<<<
 
 #############################################################################
-# #### Don't check for these files	 ####	they are labels not files	#####
+##### Don't check for these files	 ####	they are labels not files	#####
 #############################################################################
 .PHONY: BUILD_SOFTWARE CLEAN 											#####
 #############################################################################
