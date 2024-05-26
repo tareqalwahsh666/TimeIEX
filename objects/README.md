@@ -1,0 +1,1 @@
+# This folder contains objects that are ready to be linked
