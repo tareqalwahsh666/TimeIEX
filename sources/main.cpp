@@ -27,6 +27,6 @@ Main
 	APPLICATION_BASE::ApplicationKernel* application_kernel;
 	application_kernel = APPLICATION_BASE::ApplicationKernel::getInstance();
 	application_kernel->run();
-	std::cout << "Hello TimeIEX\n";
-	return 0;
+	std::cout << "Exit success\n";
+	exit(0);
 }

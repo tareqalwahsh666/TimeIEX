@@ -26,11 +26,51 @@ using namespace APPLICATION_BASE;
 
 void ApplicationKernel::run(void)
 {
-    std::cout << "Hello from the kernel\ns";
+    // Testing scene manager
+    SceneManager* scene_manager = SceneManager::getInstance(); /// manages scenes
+
+
+    /// Application Main Loop
+    while(this->primaryWindow.isOpen())
+    {
+        /// load the currents scene if not loaded
+        scene_manager->loadCurrentSceneIfNotLoaded(this->primaryWindow);
+        // HandleWindowEvents
+        sf::Event event; // object that stores window events
+        scene_manager->getCurrentScene()->handleWindowEvents(primaryWindow,event);
+        // handleUserInput
+        scene_manager->getCurrentScene()->handleUserInputs(primaryWindow,event);
+        // ProcessATick
+        //scene_manager->getCurrentScene()->processATick()
+        // play Sounds
+        scene_manager->getCurrentScene()->playSounds();
+        ///// Draw to screen some stuff
+        scene_manager->getCurrentScene()->drawToScreen(primaryWindow);
+    }
 }
 
 ApplicationKernel::ApplicationKernel(void) // application kernel class constuctor
 {
+    // Initializing primaryWindowContextSettings
+    this->primaryWindowContextSettings.antialiasingLevel = 0;
+    this->primaryWindowContextSettings.depthBits = 24;
+    this->primaryWindowContextSettings.stencilBits = 8;
+    this->primaryWindowContextSettings.majorVersion = OPENGL_MAJOR_VERSION;
+    this->primaryWindowContextSettings.minorVersion = OPENGL_MINOR_VERSION;
+
+    // Creating primaryWindow or main window
+    primaryWindow.create
+    (
+        sf::VideoMode
+            (
+                DEFAULT_SCREEN_WIDTH,
+                DEFAUTL_SCREEN_HEIGHT
+            ),
+        DEFAULT_WINDOW_TITLE,
+        DEFAULT_WINDOW_STYLE,
+        primaryWindowContextSettings
+
+    );
     
 }
 

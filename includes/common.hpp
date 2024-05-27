@@ -21,10 +21,20 @@
 #ifndef __COMMON_HPP__ // <===== Prevents multiple inclusion error
 #define __COMMON_HPP__
 
+#define DEFAULT_SCREEN_WIDTH 640
+#define DEFAUTL_SCREEN_HEIGHT 480
+#define OPENGL_MAJOR_VERSION 2
+#define OPENGL_MINOR_VERSION 1
+#define DEFAULT_WINDOW_TITLE "TimeIEX"
+#define DEFAULT_WINDOW_STYLE sf::Style::Titlebar | sf::Style::Close
+
 #include<iostream>
 #include<cmath>
 #include<memory>
 #include<map>
+#include<atomic>
+#include<mutex>
+#include<string>
 
 #include<SFML/Graphics.hpp>
 #include<SFML/System.hpp>

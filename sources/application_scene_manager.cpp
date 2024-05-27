@@ -19,60 +19,28 @@
 ---------------------------------------------------------------------------------------------------------
 */
 
-#include"common.hpp"
+#include"application_scene_manager.hpp"
 
-#ifndef __SCENE_HPP__
-#define __SCENE_HPP__
+using namespace APPLICATION_BASE;
+
+/// adding scenes to the scenes map
+std::map<std::string,std::unique_ptr<Scene>> SceneManager::scenes; // this map contains scenes that can be loaded and rendered to the window
 
 
-namespace APPLICATION_BASE // a namespace contains the framework that runs the program.
-//                         // for example: Scene_Manager, Application kernel, Resource manager
+
+
+std::atomic<SceneManager*> SceneManager::instancePtr = nullptr;
+std::mutex SceneManager::instancePtrMutex;
+
+SceneManager* SceneManager::getInstance(void)
 {
-    
-    class Scene // This is an abstarct class which you can inherit it to make a Scene for your program to excute
+    if(instancePtr==nullptr)
     {
-
-        /// >>>>>Public Section<<<<<
-        public:
-
-            virtual void initialize //This function loads the required resources for the scene and loads some important variabes
-                ( 
-                    sf::RenderWindow& primaryWindow
-                )=0;
-
-            virtual void handleWindowEvents
-                (
-                    sf::RenderWindow& primaryWindow,
-                    sf::Event& event                 // reference to the object that contain main window event...
-                    //                               // For example: window closed event and window resized.
-                )=0;
-
-            virtual void handleUserInputs // handle user input like keyboard key pressed or mouse button pressed
-                (
-                    sf::RenderWindow& primaryWindow,
-                    sf::Event& event
-                )=0;
-
-            virtual void processATick
-                (
-                    sf::Time deltaTime // contains how much time did the programs loop to do a frame
-                )=0;
-
-            virtual void playSounds // Plays some sound effects or music
-                (
-                    void // This methodes doesn't take any argument
-                )=0;
-
-            virtual void drawToScreen
-                (
-                    sf::RenderWindow& primaryWindow
-                )=0;
-            virtual ~Scene() = default;
-    };
-
-
-
-
+        std::lock_guard<std::mutex> lock(instancePtrMutex); // prevent threads from editing this at once
+        if(instancePtr==nullptr)
+        {
+            instancePtr = new SceneManager;
+        }
+    }
+    return instancePtr;
 }
-
-#endif

@@ -19,60 +19,27 @@
 ---------------------------------------------------------------------------------------------------------
 */
 
+#ifndef __DEFAULT_SCENE_HPP__
+#define __DEFAULT_SCENE_HPP__
+
 #include"common.hpp"
+#include"scene.hpp"
 
-#ifndef __SCENE_HPP__
-#define __SCENE_HPP__
-
-
-namespace APPLICATION_BASE // a namespace contains the framework that runs the program.
-//                         // for example: Scene_Manager, Application kernel, Resource manager
+class DefaultScene : public APPLICATION_BASE::Scene
 {
-    
-    class Scene // This is an abstarct class which you can inherit it to make a Scene for your program to excute
+public:
+    DefaultScene(void)
     {
+        
+    }
+    void initialize(sf::RenderWindow& primaryWindow)                       final;
+    void handleWindowEvents(sf::RenderWindow& primaryWindow,sf::Event& event)   final;
+    void handleUserInputs(sf::RenderWindow& primaryWindow,sf::Event& event)     final;
+    void processATick(sf::Time deltaTime)       final;
+    void playSounds(void)                       final;
+    void drawToScreen(sf::RenderWindow& primaryWindow)                     final;
+private:
 
-        /// >>>>>Public Section<<<<<
-        public:
-
-            virtual void initialize //This function loads the required resources for the scene and loads some important variabes
-                ( 
-                    sf::RenderWindow& primaryWindow
-                )=0;
-
-            virtual void handleWindowEvents
-                (
-                    sf::RenderWindow& primaryWindow,
-                    sf::Event& event                 // reference to the object that contain main window event...
-                    //                               // For example: window closed event and window resized.
-                )=0;
-
-            virtual void handleUserInputs // handle user input like keyboard key pressed or mouse button pressed
-                (
-                    sf::RenderWindow& primaryWindow,
-                    sf::Event& event
-                )=0;
-
-            virtual void processATick
-                (
-                    sf::Time deltaTime // contains how much time did the programs loop to do a frame
-                )=0;
-
-            virtual void playSounds // Plays some sound effects or music
-                (
-                    void // This methodes doesn't take any argument
-                )=0;
-
-            virtual void drawToScreen
-                (
-                    sf::RenderWindow& primaryWindow
-                )=0;
-            virtual ~Scene() = default;
-    };
-
-
-
-
-}
+};
 
 #endif

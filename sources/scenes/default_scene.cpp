@@ -1,4 +1,3 @@
-
 /*
 -----------TimeIEX---------------------------------------------------------------------------------------
 ----This software is a program that provides timer, interval timer, smart time manager and stopwatch.----
@@ -19,60 +18,73 @@
 ---------------------------------------------------------------------------------------------------------
 */
 
-#include"common.hpp"
-
-#ifndef __SCENE_HPP__
-#define __SCENE_HPP__
+#include"scenes/default_scene.hpp"
 
 
-namespace APPLICATION_BASE // a namespace contains the framework that runs the program.
-//                         // for example: Scene_Manager, Application kernel, Resource manager
+void DefaultScene::initialize(sf::RenderWindow& primaryWindow)
 {
-    
-    class Scene // This is an abstarct class which you can inherit it to make a Scene for your program to excute
+    primaryWindow.setTitle("TimeIEX 0.0.0.3pre-alpha @2024 tareqalwahsh(tareq aldebs)");
+    primaryWindow.setSize
+        (
+            sf::Vector2u(800,600)
+        );
+}
+
+void DefaultScene::handleWindowEvents(sf::RenderWindow& primaryWindow,sf::Event& event)
+{
+    while(primaryWindow.pollEvent(event))
     {
+        switch (event.type)
+        {
+        case sf::Event::Closed:
+            primaryWindow.close();
+            break;
+        
+        default:
+            break;
+        }
+    }
+}
 
-        /// >>>>>Public Section<<<<<
-        public:
+void DefaultScene::handleUserInputs(sf::RenderWindow& primaryWindow,sf::Event& event)
+{
+    while(primaryWindow.pollEvent(event))
+    {
+        switch(event.type)
+        {
+            case sf::Event::KeyPressed:
+                switch (event.key.code)
+                {
+                case sf::Keyboard::Escape:
+                    primaryWindow.close();
+                    break;
+                
+                default:
+                    break;
+                }
+                break;
+            case sf::Event::KeyReleased:
+                break;
+            default:
+                break;
+        }
+    }
+}
 
-            virtual void initialize //This function loads the required resources for the scene and loads some important variabes
-                ( 
-                    sf::RenderWindow& primaryWindow
-                )=0;
+void DefaultScene::processATick(sf::Time deltaTime)
+{
+    std::cout << "Frameddd " << deltaTime.asMicroseconds() << std::endl; 
+}
 
-            virtual void handleWindowEvents
-                (
-                    sf::RenderWindow& primaryWindow,
-                    sf::Event& event                 // reference to the object that contain main window event...
-                    //                               // For example: window closed event and window resized.
-                )=0;
-
-            virtual void handleUserInputs // handle user input like keyboard key pressed or mouse button pressed
-                (
-                    sf::RenderWindow& primaryWindow,
-                    sf::Event& event
-                )=0;
-
-            virtual void processATick
-                (
-                    sf::Time deltaTime // contains how much time did the programs loop to do a frame
-                )=0;
-
-            virtual void playSounds // Plays some sound effects or music
-                (
-                    void // This methodes doesn't take any argument
-                )=0;
-
-            virtual void drawToScreen
-                (
-                    sf::RenderWindow& primaryWindow
-                )=0;
-            virtual ~Scene() = default;
-    };
-
-
-
+void DefaultScene::playSounds(void)
+{
 
 }
 
-#endif
+void DefaultScene::drawToScreen(sf::RenderWindow& primaryWindow)
+{
+    primaryWindow.clear(sf::Color::Green);
+    primaryWindow.display();
+}
+
+

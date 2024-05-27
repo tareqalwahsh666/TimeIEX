@@ -19,6 +19,7 @@
 */
 
 #include"common.hpp"
+#include"application_scene_manager.hpp"
 
 #ifndef __APPLICATION_KERNEL__
 #define __APPLICATION_KERNEL__
@@ -36,6 +37,11 @@ namespace APPLICATION_BASE // a namespace contains the framework that runs the p
 
             void run(void); // this function runs the program
 
+            inline sf::RenderWindow& getPrimaryWindow(void)
+            {return this->primaryWindow;}
+            inline sf::RenderWindow& getMainWindow(void)
+            {return this->primaryWindow;}
+
             // This class can't be cloned or assigned
             ApplicationKernel(const ApplicationKernel&) = delete;
             void operator= (const ApplicationKernel&)   = delete;
@@ -50,6 +56,10 @@ namespace APPLICATION_BASE // a namespace contains the framework that runs the p
             ApplicationKernel(void); // the class constructor is private because it's a singleton class
 
             static ApplicationKernel* instancePtr; // This pointer contains this class instance adderss in memory
+
+            sf::RenderWindow primaryWindow; // main window
+            sf::ContextSettings primaryWindowContextSettings;
+
 
             
 
