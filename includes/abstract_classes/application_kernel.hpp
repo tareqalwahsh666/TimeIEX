@@ -19,30 +19,29 @@
 ---------------------------------------------------------------------------------------------------------
 */
 
-#ifndef __DEFAULT_SCENE_HPP__
-#define __DEFAULT_SCENE_HPP__
+/// This abstract class was made to make scenes modules be able to reach application_kernel class
+
+// This module will be included multiple time from several source file
+#ifndef __APPLICATION_KERNEL_ABSTRACT_HPP__
+#define __APPLICATION_KERNEL_ABSTRACT_HPP__
 
 #include"common.hpp"
-#include"abstract_classes/scene.hpp"
-#include"application_base_external_access.hpp"
 
-class DefaultScene : public APPLICATION_BASE::Scene
+namespace APPLICATION_BASE_ABSTRACTS // a namespace contains the framework abstract that runs the program.
 {
-public:
-    DefaultScene(void)
-    {
-        
-    }
-    void initialize(void)                           final;
-    void handleWindowEvents(void)                   final;
-    void handleUserInputs(void)                     final;
-    void processATick(sf::Time deltaTime)           final;
-    void playSounds(void)                           final;
-    void drawToScreen(void)                         final;
-    void onExit(void)                               final;
-private:
-    sf::RenderWindow* primaryWindow;
 
-};
+    class ApplicationKernelAbstract
+    {
+
+    public:
+
+        virtual sf::Event& getPrimaryWindowEvents(void)              =0; // gets primaryWindow Events
+        virtual sf::RenderWindow* getPrimaryWindow(void)             =0; // getting primaryWindow
+        virtual sf::RenderWindow* getMainWindow(void)                =0;
+        static ApplicationKernelAbstract* getInstance(void)            ; // returns the class instance address
+        virtual ~ApplicationKernelAbstract()                         = default;
+    };
+
+}
 
 #endif

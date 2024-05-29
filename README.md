@@ -1,7 +1,7 @@
-# TimeIEX V0.0.0.3pre-alpha
+# TimeIEX V0.0.0.4pre-alpha
 -----------TimeIEX---------------------------------------------------------------------------------------
 ----This software is a program that provides timer, interval timer, smart time manager and stopwatch.----
-----Copyright (C) 2024  tareqalwahsh666                                                              ----
+----Copyright (C) 2024  tareqalwahsh666(tareqaldebs)                                                 ----
 ----                                                                                                 ----
 ----This program is free software: you can redistribute it and/or modify                             ----
 ----it under the terms of the GNU General Public License as published by                             ----

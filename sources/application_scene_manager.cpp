@@ -2,7 +2,7 @@
 /*
 -----------TimeIEX---------------------------------------------------------------------------------------
 ----This software is a program that provides timer, interval timer, smart time manager and stopwatch.----
-----Copyright (C) 2024  tareqalwahsh666                                                              ----
+----Copyright (C) 2024  tareqalwahsh666(tareqaldebs)                                                 ----
 ----                                                                                                 ----
 ----This program is free software: you can redistribute it and/or modify                             ----
 ----it under the terms of the GNU General Public License as published by                             ----
@@ -40,6 +40,8 @@ SceneManager* SceneManager::getInstance(void)
         if(instancePtr==nullptr)
         {
             instancePtr = new SceneManager;
+            // makes external modules access this class 
+            APPLICATION_BASE_EXTERNAL::ExternalAccess::makeAnAccess(instancePtr);
         }
     }
     return instancePtr;

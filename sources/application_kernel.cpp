@@ -2,7 +2,7 @@
 /*
 -----------TimeIEX---------------------------------------------------------------------------------------
 ----This software is a program that provides timer, interval timer, smart time manager and stopwatch.----
-----Copyright (C) 2024  tareqalwahsh666                                                              ----
+----Copyright (C) 2024  tareqalwahsh666(tareqaldebs)                                                 ----
 ----                                                                                                 ----
 ----This program is free software: you can redistribute it and/or modify                             ----
 ----it under the terms of the GNU General Public License as published by                             ----
@@ -34,18 +34,19 @@ void ApplicationKernel::run(void)
     while(this->primaryWindow.isOpen())
     {
         /// load the currents scene if not loaded
-        scene_manager->loadCurrentSceneIfNotLoaded(this->primaryWindow);
+        scene_manager->loadCurrentSceneIfNotLoaded();
         // HandleWindowEvents
         sf::Event event; // object that stores window events
-        scene_manager->getCurrentScene()->handleWindowEvents(primaryWindow,event);
+        this->primaryWindowEventsPtr = &event;
+        scene_manager->getCurrentScene()->handleWindowEvents();
         // handleUserInput
-        scene_manager->getCurrentScene()->handleUserInputs(primaryWindow,event);
+        scene_manager->getCurrentScene()->handleUserInputs();
         // ProcessATick
         //scene_manager->getCurrentScene()->processATick()
         // play Sounds
         scene_manager->getCurrentScene()->playSounds();
         ///// Draw to screen some stuff
-        scene_manager->getCurrentScene()->drawToScreen(primaryWindow);
+        scene_manager->getCurrentScene()->drawToScreen();
     }
 }
 
@@ -80,7 +81,9 @@ ApplicationKernel* ApplicationKernel::getInstance(void)
 {
     if(instancePtr==nullptr) // the is no instance created create one and store it's address in a pointer
     {
-        instancePtr = new ApplicationKernel;
+        instancePtr = new ApplicationKernel();
+        // give external classess access to this class
+        APPLICATION_BASE_EXTERNAL::ExternalAccess::makeAnAccess(instancePtr);
     }
     return instancePtr; // return the instnace address from the pointer
 }

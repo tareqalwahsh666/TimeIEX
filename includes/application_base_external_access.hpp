@@ -19,30 +19,42 @@
 ---------------------------------------------------------------------------------------------------------
 */
 
-#ifndef __DEFAULT_SCENE_HPP__
-#define __DEFAULT_SCENE_HPP__
+// this module provides an access to the application base from external modules like scene modules
 
-#include"common.hpp"
-#include"abstract_classes/scene.hpp"
-#include"application_base_external_access.hpp"
+#ifndef __APPLICATION_BASE_EXTERNAL_ACCESS_HPP__
+#define __APPLICATION_BASE_EXTERNAL_ACCESS_HPP__
 
-class DefaultScene : public APPLICATION_BASE::Scene
+#include"abstract_classes/application_kernel.hpp"
+#include"abstract_classes/application_scene_manager.hpp"
+
+namespace APPLICATION_BASE_EXTERNAL
 {
-public:
-    DefaultScene(void)
+
+    class ExternalAccess /// makes scenes modules access application base
     {
-        
-    }
-    void initialize(void)                           final;
-    void handleWindowEvents(void)                   final;
-    void handleUserInputs(void)                     final;
-    void processATick(sf::Time deltaTime)           final;
-    void playSounds(void)                           final;
-    void drawToScreen(void)                         final;
-    void onExit(void)                               final;
-private:
-    sf::RenderWindow* primaryWindow;
+
+    public:
+
+        static void makeAnAccess // used in application kernel class
+        (
+            APPLICATION_BASE_ABSTRACTS::ApplicationKernelAbstract* ApplicationKernel
+        );
+
+        static void makeAnAccess /// used in scene manager class
+        (
+            APPLICATION_BASE_ABSTRACTS::SceneManagerAbstract* SceneManager
+        );
+
+        static APPLICATION_BASE_ABSTRACTS::ApplicationKernelAbstract& accessApplicationKernel(void); // These will be used in..
+        static APPLICATION_BASE_ABSTRACTS::SceneManagerAbstract& accessSceneManager(void);           // in scene modules
+
+    private:
+        static APPLICATION_BASE_ABSTRACTS::ApplicationKernelAbstract* ApplicationKernelPtr; // pointer has application kernel object
+        //                                                                               // address in memory
+        static APPLICATION_BASE_ABSTRACTS::SceneManagerAbstract* SceneManagerPtr; // pointer has scene manager object address in mem
+    };
 
 };
+
 
 #endif

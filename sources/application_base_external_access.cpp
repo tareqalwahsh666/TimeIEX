@@ -19,30 +19,33 @@
 ---------------------------------------------------------------------------------------------------------
 */
 
-#ifndef __DEFAULT_SCENE_HPP__
-#define __DEFAULT_SCENE_HPP__
-
-#include"common.hpp"
-#include"abstract_classes/scene.hpp"
 #include"application_base_external_access.hpp"
 
-class DefaultScene : public APPLICATION_BASE::Scene
+using namespace APPLICATION_BASE_EXTERNAL;
+
+APPLICATION_BASE_ABSTRACTS::ApplicationKernelAbstract* ExternalAccess::ApplicationKernelPtr = nullptr;
+APPLICATION_BASE_ABSTRACTS::SceneManagerAbstract*      ExternalAccess::SceneManagerPtr      = nullptr;
+
+void ExternalAccess::makeAnAccess(
+    APPLICATION_BASE_ABSTRACTS::ApplicationKernelAbstract* ApplicationKernel
+    )
 {
-public:
-    DefaultScene(void)
-    {
-        
-    }
-    void initialize(void)                           final;
-    void handleWindowEvents(void)                   final;
-    void handleUserInputs(void)                     final;
-    void processATick(sf::Time deltaTime)           final;
-    void playSounds(void)                           final;
-    void drawToScreen(void)                         final;
-    void onExit(void)                               final;
-private:
-    sf::RenderWindow* primaryWindow;
+    ApplicationKernelPtr = ApplicationKernel;
+}
 
-};
+void ExternalAccess::makeAnAccess(
+    APPLICATION_BASE_ABSTRACTS::SceneManagerAbstract* SceneManager
+    )   
+{
+    SceneManagerPtr = SceneManager;
+}
 
-#endif
+APPLICATION_BASE_ABSTRACTS::ApplicationKernelAbstract& ExternalAccess::accessApplicationKernel(void)
+{
+    return *ApplicationKernelPtr;
+}
+
+APPLICATION_BASE_ABSTRACTS::SceneManagerAbstract& ExternalAccess::accessSceneManager(void)
+{
+    return *SceneManagerPtr;
+}

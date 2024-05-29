@@ -1,7 +1,7 @@
 /*
 -----------TimeIEX---------------------------------------------------------------------------------------
 ----This software is a program that provides timer, interval timer, smart time manager and stopwatch.----
-----Copyright (C) 2024  tareqalwahsh666                                                              ----
+----Copyright (C) 2024  tareqalwahsh666(tareqaldebs)                                                 ----
 ----                                                                                                 ----
 ----This program is free software: you can redistribute it and/or modify                             ----
 ----it under the terms of the GNU General Public License as published by                             ----
@@ -21,23 +21,35 @@
 #include"scenes/default_scene.hpp"
 
 
-void DefaultScene::initialize(sf::RenderWindow& primaryWindow)
+
+void DefaultScene::initialize(void)
 {
-    primaryWindow.setTitle("TimeIEX 0.0.0.3pre-alpha @2024 tareqalwahsh(tareq aldebs)");
-    primaryWindow.setSize
+    this->primaryWindow = APPLICATION_BASE_EXTERNAL::ExternalAccess::accessApplicationKernel().getPrimaryWindow();
+    this->primaryWindow->setTitle
+        (
+            "TimeIEX 0.0.0.4pre-alpha @2024 tareqalwahsh(tareq aldebs)"
+        );
+    this->primaryWindow->setSize
         (
             sf::Vector2u(800,600)
         );
 }
 
-void DefaultScene::handleWindowEvents(sf::RenderWindow& primaryWindow,sf::Event& event)
+void DefaultScene::onExit(void)
 {
-    while(primaryWindow.pollEvent(event))
+    
+}
+
+void DefaultScene::handleWindowEvents(void)
+{
+    while(this->primaryWindow->pollEvent(
+        APPLICATION_BASE_EXTERNAL::ExternalAccess::accessApplicationKernel().getPrimaryWindowEvents()
+    ))
     {
-        switch (event.type)
+        switch (APPLICATION_BASE_EXTERNAL::ExternalAccess::accessApplicationKernel().getPrimaryWindowEvents().type)
         {
         case sf::Event::Closed:
-            primaryWindow.close();
+            this->primaryWindow->close();
             break;
         
         default:
@@ -46,28 +58,11 @@ void DefaultScene::handleWindowEvents(sf::RenderWindow& primaryWindow,sf::Event&
     }
 }
 
-void DefaultScene::handleUserInputs(sf::RenderWindow& primaryWindow,sf::Event& event)
+void DefaultScene::handleUserInputs(void)
 {
-    while(primaryWindow.pollEvent(event))
+    if(sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
     {
-        switch(event.type)
-        {
-            case sf::Event::KeyPressed:
-                switch (event.key.code)
-                {
-                case sf::Keyboard::Escape:
-                    primaryWindow.close();
-                    break;
-                
-                default:
-                    break;
-                }
-                break;
-            case sf::Event::KeyReleased:
-                break;
-            default:
-                break;
-        }
+        this->primaryWindow->close();
     }
 }
 
@@ -81,10 +76,10 @@ void DefaultScene::playSounds(void)
 
 }
 
-void DefaultScene::drawToScreen(sf::RenderWindow& primaryWindow)
+void DefaultScene::drawToScreen(void)
 {
-    primaryWindow.clear(sf::Color::Green);
-    primaryWindow.display();
+    this->primaryWindow->clear(sf::Color::Green);
+    this->primaryWindow->display();
 }
 
 

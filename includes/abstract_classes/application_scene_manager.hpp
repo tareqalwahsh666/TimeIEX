@@ -19,30 +19,28 @@
 ---------------------------------------------------------------------------------------------------------
 */
 
-#ifndef __DEFAULT_SCENE_HPP__
-#define __DEFAULT_SCENE_HPP__
+/// This abstract class was made to make scenes modules be able to reach application_scene_manager class
+
+// This module will be included multiple time from several source file
+#ifndef __APPLICATION_SCENE_MANAGER_ABSTRACT_HPP__
+#define __APPLICATION_SCENE_MANAGER_ABSTRACT_HPP__
 
 #include"common.hpp"
-#include"abstract_classes/scene.hpp"
-#include"application_base_external_access.hpp"
 
-class DefaultScene : public APPLICATION_BASE::Scene
+namespace APPLICATION_BASE_ABSTRACTS // a namespace contains the framework abstract that runs the program.
 {
-public:
-    DefaultScene(void)
-    {
-        
-    }
-    void initialize(void)                           final;
-    void handleWindowEvents(void)                   final;
-    void handleUserInputs(void)                     final;
-    void processATick(sf::Time deltaTime)           final;
-    void playSounds(void)                           final;
-    void drawToScreen(void)                         final;
-    void onExit(void)                               final;
-private:
-    sf::RenderWindow* primaryWindow;
 
-};
+    class SceneManagerAbstract
+    {
+    public:
+
+        virtual void changeCurrentSceneTo(std::string scene_name) =0; /// to change current scene
+        virtual void restart(void)                                =0; /// restart current scene
+        static SceneManagerAbstract* getInstance(void)            ; // returns the class instance address
+        virtual ~SceneManagerAbstract(void) = default;
+    };
+
+
+}
 
 #endif

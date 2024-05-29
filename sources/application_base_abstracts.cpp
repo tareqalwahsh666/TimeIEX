@@ -1,4 +1,3 @@
-
 /*
 -----------TimeIEX---------------------------------------------------------------------------------------
 ----This software is a program that provides timer, interval timer, smart time manager and stopwatch.----
@@ -19,30 +18,18 @@
 ---------------------------------------------------------------------------------------------------------
 */
 
-#ifndef __DEFAULT_SCENE_HPP__
-#define __DEFAULT_SCENE_HPP__
+#include"abstract_classes/application_kernel.hpp"
+#include"abstract_classes/application_scene_manager.hpp"
 
-#include"common.hpp"
-#include"abstract_classes/scene.hpp"
-#include"application_base_external_access.hpp"
 
-class DefaultScene : public APPLICATION_BASE::Scene
+using namespace APPLICATION_BASE_ABSTRACTS;
+
+ApplicationKernelAbstract* ApplicationKernelAbstract::getInstance(void) // not initialized static function
 {
-public:
-    DefaultScene(void)
-    {
-        
-    }
-    void initialize(void)                           final;
-    void handleWindowEvents(void)                   final;
-    void handleUserInputs(void)                     final;
-    void processATick(sf::Time deltaTime)           final;
-    void playSounds(void)                           final;
-    void drawToScreen(void)                         final;
-    void onExit(void)                               final;
-private:
-    sf::RenderWindow* primaryWindow;
+    return nullptr;
+}
 
-};
-
-#endif
+SceneManagerAbstract* SceneManagerAbstract::getInstance(void)         // returns the class instance address
+{
+    return nullptr;
+}

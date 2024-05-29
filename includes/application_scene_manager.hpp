@@ -2,7 +2,7 @@
 /*
 -----------TimeIEX---------------------------------------------------------------------------------------
 ----This software is a program that provides timer, interval timer, smart time manager and stopwatch.----
-----Copyright (C) 2024  tareqalwahsh666                                                              ----
+----Copyright (C) 2024  tareqalwahsh666(tareqaldebs)                                                 ----
 ----                                                                                                 ----
 ----This program is free software: you can redistribute it and/or modify                             ----
 ----it under the terms of the GNU General Public License as published by                             ----
@@ -23,15 +23,17 @@
 #define __APPLICATION_SCENE_MANAGER_HPP__
 
 #include "common.hpp"
-#include "scene.hpp"
+#include"abstract_classes/scene.hpp"
 #include "scenes/default_scene.hpp"
+#include "abstract_classes/application_scene_manager.hpp"
+#include "application_base_external_access.hpp"
 
 namespace APPLICATION_BASE // a namespace contains the framework that runs the program.
 {
 
     /// This class is singleton
 
-    class SceneManager
+    class SceneManager : public APPLICATION_BASE_ABSTRACTS::SceneManagerAbstract
     {
     private:
         // constructor
@@ -50,9 +52,10 @@ namespace APPLICATION_BASE // a namespace contains the framework that runs the p
             return this->currentScene;
         }
 
-        inline void changeCurrentSceneTo(std::string scene_name)
-        {
+        inline void changeCurrentSceneTo(std::string scene_name) /// <--- used from scenes
+        final{
             std::string previousSceneName = this->current_scene_name;     /// storing previous scene name
+            this->currentScene->onExit(); /// do some stuff when quiting from a scene to free allocated memory
             scenes.at(previousSceneName) = std::move(this->currentScene); /// returning the ownership back to the previous scene...
             ////                                                     // to the smart pointer which is located in a...
             ///                                                      // container in scenes map this container key is a...
@@ -61,7 +64,16 @@ namespace APPLICATION_BASE // a namespace contains the framework that runs the p
             this->currentSceneLoaded = false;
         }
 
-        inline void loadCurrentSceneIfNotLoaded(sf::RenderWindow& primaryWindow)
+        inline void restart(void) // <-- used in scenes to restart the current scene
+        final{
+            this->currentScene->onExit(); /// do some stuff when quiting from a scene to free allocated memory
+            scenes.at(this->current_scene_name) = std::move(this->currentScene);
+            this->currentSceneLoaded = false;
+        }
+
+
+
+        inline void loadCurrentSceneIfNotLoaded() // <---- used in application kernel
         {
             if (!this->currentSceneLoaded) // if current is not loaded load it
             {
@@ -71,7 +83,7 @@ namespace APPLICATION_BASE // a namespace contains the framework that runs the p
                     (
                         this->scenes.at(this->current_scene_name)
                     );
-                this->currentScene->initialize(primaryWindow);
+                this->currentScene->initialize();
                 this->currentSceneLoaded = true; /// current scene loaded successfully
             }
         }

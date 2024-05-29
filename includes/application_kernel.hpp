@@ -1,7 +1,7 @@
 /*
 -----------TimeIEX---------------------------------------------------------------------------------------
 ----This software is a program that provides timer, interval timer, smart time manager and stopwatch.----
-----Copyright (C) 2024  tareqalwahsh666                                                              ----
+----Copyright (C) 2024  tareqalwahsh666(tareqaldebs)                                                 ----
 ----                                                                                                 ----
 ----This program is free software: you can redistribute it and/or modify                             ----
 ----it under the terms of the GNU General Public License as published by                             ----
@@ -20,6 +20,8 @@
 
 #include"common.hpp"
 #include"application_scene_manager.hpp"
+#include"abstract_classes/application_kernel.hpp"
+#include"application_base_external_access.hpp"
 
 #ifndef __APPLICATION_KERNEL__
 #define __APPLICATION_KERNEL__
@@ -27,7 +29,8 @@
 namespace APPLICATION_BASE // a namespace contains the framework that runs the program.
 {
 
-    class ApplicationKernel // builds the main window and runs the program because it contains the main loop of the program
+    class ApplicationKernel : public APPLICATION_BASE_ABSTRACTS::ApplicationKernelAbstract
+    //                        // builds the main window and runs the program because it contains the main loop of the program
     //                      // It's singleon class. This class can have one instance onlys
     //                      // It's not thread safe
     {
@@ -37,10 +40,14 @@ namespace APPLICATION_BASE // a namespace contains the framework that runs the p
 
             void run(void); // this function runs the program
 
-            inline sf::RenderWindow& getPrimaryWindow(void)
-            {return this->primaryWindow;}
-            inline sf::RenderWindow& getMainWindow(void)
-            {return this->primaryWindow;}
+            
+            inline sf::RenderWindow* getPrimaryWindow(void) // These are used by main scene modules
+            final{return &this->primaryWindow;}
+            inline sf::RenderWindow* getMainWindow(void)
+            final{return &this->primaryWindow;}
+            inline sf::Event& getPrimaryWindowEvents(void)
+            final{return *(this->primaryWindowEventsPtr);}
+            ///////////////////////////////////////////////////////
 
             // This class can't be cloned or assigned
             ApplicationKernel(const ApplicationKernel&) = delete;
@@ -53,12 +60,13 @@ namespace APPLICATION_BASE // a namespace contains the framework that runs the p
         // >>>> private section<<<<
         private:
 
-            ApplicationKernel(void); // the class constructor is private because it's a singleton class
+            ApplicationKernel(void) ; // the class constructor is private because it's a singleton class
 
             static ApplicationKernel* instancePtr; // This pointer contains this class instance adderss in memory
 
             sf::RenderWindow primaryWindow; // main window
             sf::ContextSettings primaryWindowContextSettings;
+            sf::Event* primaryWindowEventsPtr; // This ptr stores the address of the object that stores 
 
 
             

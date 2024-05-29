@@ -2,7 +2,7 @@
 /*
 -----------TimeIEX---------------------------------------------------------------------------------------
 ----This software is a program that provides timer, interval timer, smart time manager and stopwatch.----
-----Copyright (C) 2024  tareqalwahsh666                                                              ----
+----Copyright (C) 2024  tareqalwahsh666(tareqaldebs)                                                 ----
 ----                                                                                                 ----
 ----This program is free software: you can redistribute it and/or modify                             ----
 ----it under the terms of the GNU General Public License as published by                             ----
@@ -35,22 +35,22 @@ namespace APPLICATION_BASE // a namespace contains the framework that runs the p
         /// >>>>>Public Section<<<<<
         public:
 
+        
             virtual void initialize //This function loads the required resources for the scene and loads some important variabes
                 ( 
-                    sf::RenderWindow& primaryWindow
+                    void
                 )=0;
+
+            virtual void onExit(void) = 0; // This what to do when quiting from the scene
 
             virtual void handleWindowEvents
                 (
-                    sf::RenderWindow& primaryWindow,
-                    sf::Event& event                 // reference to the object that contain main window event...
-                    //                               // For example: window closed event and window resized.
+                    void
                 )=0;
 
             virtual void handleUserInputs // handle user input like keyboard key pressed or mouse button pressed
                 (
-                    sf::RenderWindow& primaryWindow,
-                    sf::Event& event
+                    void
                 )=0;
 
             virtual void processATick
@@ -65,7 +65,7 @@ namespace APPLICATION_BASE // a namespace contains the framework that runs the p
 
             virtual void drawToScreen
                 (
-                    sf::RenderWindow& primaryWindow
+                    void
                 )=0;
             virtual ~Scene() = default;
     };
