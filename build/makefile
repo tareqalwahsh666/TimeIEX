@@ -22,7 +22,7 @@
 
 
 # app_name
-BUILD_TARGET 							=build/TimeIEX
+BUILD_TARGET 							=TimeIEX
 
 # dynamic lib suffix # change it to .dll for windows 
 DLIB 									=.so
@@ -32,8 +32,8 @@ DLIB 									=.so
 # >>>>	GENERAL	VARIABLES	START	<<<<
 CXX 									=g++
 CXXSTD 									=-std=c++20
-INCLUDE									=./includes/
-CXXFLAGS								=-Wall -g $(CXXSTD) -I$(INCLUDE) -Werror -pedantic -Wextra  -Wshadow -Wconversion -O2
+INCLUDE									=/home/tareq/Desktop/workspace/TimeIEX/includes/
+CXXFLAGS								=-Wall  $(CXXSTD) -I$(INCLUDE) -pedantic -Wextra  -Wshadow -Wconversion -O2
 RM 										=rm -f
 SFML									=-lsfml-window -lsfml-system -lsfml-graphics
 # >>>>	GENERAL VARIABLES END
@@ -62,9 +62,9 @@ BUILD_DLIBOBJ 							=$(BUILD_OBJ) -fPIC
 
 # >>>	BUILD	DIRECTORIES		START	<<<<
 
-OBJDIR									=objects/
-LIBDIR									=build/libs/
-SRCDIR									=sources/
+OBJDIR									=/home/tareq/Desktop/workspace/TimeIEX/objects/
+LIBDIR									=libs/
+SRCDIR									=/home/tareq/Desktop/workspace/TimeIEX/sources/
 
 # >>>	BUILD	DIRECTORIES		END		<<<<
 
@@ -86,7 +86,7 @@ BUILD_SOFTWARE: $(BUILD_TARGET)
 	echo Building the program succeed
 # This rule cleans objects and binary files
 CLEAN:
-	$(RM) objects/*.o $(BUILD_TARGET) build/*$(DLIB) build/libs*$(DLIB)
+	$(RM) $(OBJDIR)*.o $(BUILD_TARGET) $(DLIBDIR)*$(DLIB) libs/*$(DLIB)
 	echo build removed successfully
 
 
@@ -107,7 +107,7 @@ MAIN_OBJ =$(OBJDIR)main.o
 MAIN_SRC =$(SRCDIR)main.cpp
 # Application kernel variabless
 APPLICATION_KERNEL_OBJ 	=$(OBJDIR)application_kernel.o
-APPLICATION_KERNEL_DLIB =build/application_kernel$(DLIB)
+APPLICATION_KERNEL_DLIB =application_kernel$(DLIB)
 APPLICATION_KERNEL_SRC	=$(SRCDIR)application_kernel.cpp
 # Application scene manager variables
 APPLICATION_SCENE_MANAGER_OBJ =$(OBJDIR)application_scene_manager.o
@@ -122,6 +122,18 @@ APPLICATION_BASE_EXTERNAL_ACCESS_OBJ 	=$(OBJDIR)application_base_external_access
 APPLICATION_BASE_EXTERNAL_ACCESS_DLIB	=$(LIBDIR)application_base_external_access$(DLIB)
 APPLICATION_BASE_EXTERNAL_ACCESS_SRC  	=$(SRCDIR)application_base_external_access.cpp
 
+# application gui
+
+# button
+BUTTON_OBJ =$(OBJDIR)button.o
+BUTTON_SRC =$(SRCDIR)button.cpp
+BUTTON_LIB =$(LIBDIR)button$(DLIB)
+
+# message box
+MESSAGE_BOX_OBJ =$(OBJDIR)message_box.o
+MESSAGE_BOX_SRC =$(SRCDIR)message_box.cpp
+MESSAGE_BOX_LIB =$(LIBDIR)message_box$(DLIB)
+
 #scenes
 LINK_SCENES = ./$(DEFAULT_SCENE_DLIB)
 
@@ -133,8 +145,8 @@ DEFAULT_SCENE_SRC =$(SRCDIR)scenes/default_scene.cpp
 
 
 # Main Rules
-$(BUILD_TARGET):$(APPLICATION_KERNEL_DLIB) $(MAIN_OBJ) 
-	$(BUILD) $(MAIN_OBJ) -o $(BUILD_TARGET) ./$(APPLICATION_KERNEL_DLIB) ./$(APPLICATION_BASE_EXTERNAL_ACCESS_DLIB) ./$(APPLICATION_BASE_ABSTRACTS_DLIB) ./$(APPLICATION_SCENE_MANAGER_DLIB) $(LINK_SCENES)  $(SFML)
+$(BUILD_TARGET):$(BUTTON_LIB) $(MESSAGE_BOX_LIB) $(APPLICATION_KERNEL_DLIB) $(MAIN_OBJ) 
+	$(BUILD) $(MAIN_OBJ) -o $(BUILD_TARGET) ./$(BUTTON_LIB) ./$(MESSAGE_BOX_LIB) ./$(APPLICATION_KERNEL_DLIB) ./$(APPLICATION_BASE_EXTERNAL_ACCESS_DLIB) ./$(APPLICATION_BASE_ABSTRACTS_DLIB) ./$(APPLICATION_SCENE_MANAGER_DLIB)  $(LINK_SCENES)  $(SFML)
 
 $(MAIN_OBJ): $(MAIN_SRC)
 	$(BUILD_OBJ) $(MAIN_SRC) -o $(MAIN_OBJ)
@@ -172,14 +184,33 @@ $(APPLICATION_BASE_EXTERNAL_ACCESS_DLIB):$(APPLICATION_BASE_EXTERNAL_ACCESS_OBJ)
 $(APPLICATION_BASE_EXTERNAL_ACCESS_OBJ):$(APPLICATION_BASE_EXTERNAL_ACCESS_SRC)
 	$(BUILD_DLIBOBJ) $(APPLICATION_BASE_EXTERNAL_ACCESS_SRC) -o $(APPLICATION_BASE_EXTERNAL_ACCESS_OBJ)
 
+# message box
+
+$(MESSAGE_BOX_LIB):$(MESSAGE_BOX_OBJ) $(BUTTON_LIB)
+	$(BUILD_DLIB) $(MESSAGE_BOX_OBJ) -o $(MESSAGE_BOX_LIB) ./$(BUTTON_LIB)
+
+$(MESSAGE_BOX_OBJ): $(INCLUDE)abstract_classes/message_box.hpp $(INCLUDE)message_box.hpp  $(MESSAGE_BOX_SRC)
+	$(BUILD_DLIBOBJ) $(MESSAGE_BOX_SRC) -o $(MESSAGE_BOX_OBJ)
+
+# application gui rules
+
+
+# application button rules
+
+$(BUTTON_LIB): $(BUTTON_OBJ)
+	$(BUILD_DLIB) $(BUTTON_OBJ) -o $(BUTTON_LIB)
+
+$(BUTTON_OBJ):$(BUTTON_SRC) $(INCLUDE)button.hpp
+	$(BUILD_DLIBOBJ) $(BUTTON_SRC) -o $(BUTTON_OBJ)
+
 # scenes rules
 
 # default scene rules
 $(DEFAULT_SCENE_DLIB):$(DEFAULT_SCENE_OBJ)
 	echo in
-	$(BUILD_DLIB) $(DEFAULT_SCENE_OBJ) -o $(DEFAULT_SCENE_DLIB)
+	$(BUILD_DLIB) $(DEFAULT_SCENE_OBJ) -o $(DEFAULT_SCENE_DLIB) ./$(BUTTON_LIB) ./$(MESSAGE_BOX_LIB)
 
-$(DEFAULT_SCENE_OBJ):$(DEFAULT_SCENE_SRC)
+$(DEFAULT_SCENE_OBJ):$(INCLUDE)scenes/default_scene.hpp $(DEFAULT_SCENE_SRC)
 	$(BUILD_DLIBOBJ) $(DEFAULT_SCENE_SRC) -o $(DEFAULT_SCENE_OBJ)
 
 

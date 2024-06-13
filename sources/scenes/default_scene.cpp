@@ -22,17 +22,19 @@
 
 
 
+
 void DefaultScene::initialize(void)
 {
     this->primaryWindow = APPLICATION_BASE_EXTERNAL::ExternalAccess::accessApplicationKernel().getPrimaryWindow();
     this->primaryWindow->setTitle
         (
-            "TimeIEX 0.0.0.4pre-alpha @2024 tareqalwahsh(tareq aldebs)"
+            "TimeIEX 0.0.0.5pre-alpha @2024 tareqalwahsh(tareq aldebs)"
         );
     this->primaryWindow->setSize
         (
             sf::Vector2u(800,600)
         );
+
 }
 
 void DefaultScene::onExit(void)
@@ -56,6 +58,21 @@ void DefaultScene::handleWindowEvents(void)
             break;
         }
     }
+    
+    
+    
+    /*
+    if(mb_choice==MB_EXIT)
+    {
+        this->primaryWindow->close();
+        exit(-1);
+    }
+    else
+    {
+        this->primaryWindow->close();
+        exit(-1);
+    }
+    */
 }
 
 void DefaultScene::handleUserInputs(void)
@@ -78,7 +95,7 @@ void DefaultScene::playSounds(void)
 
 void DefaultScene::drawToScreen(void)
 {
-    this->primaryWindow->clear(sf::Color::Green);
+    this->primaryWindow->clear(sf::Color::Transparent);
     this->primaryWindow->display();
 }
 

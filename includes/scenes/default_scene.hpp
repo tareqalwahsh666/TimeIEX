@@ -25,13 +25,14 @@
 #include"common.hpp"
 #include"abstract_classes/scene.hpp"
 #include"application_base_external_access.hpp"
+#include"button.hpp"
+#include"message_box.hpp"
 
 class DefaultScene : public APPLICATION_BASE::Scene
 {
 public:
     DefaultScene(void)
     {
-        
     }
     void initialize(void)                           final;
     void handleWindowEvents(void)                   final;

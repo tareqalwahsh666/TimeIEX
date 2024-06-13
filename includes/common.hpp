@@ -35,9 +35,22 @@
 #include<atomic>
 #include<mutex>
 #include<string>
+#include<exception>
+#include<cassert>
+#include<functional>
 
 #include<SFML/Graphics.hpp>
 #include<SFML/System.hpp>
 
+namespace APPLICATION_DEBUG
+{
+    static inline void gaurdLoadProcess(bool process,std::string name,std::string error_code)
+    {
+        if(!process)
+        {
+            std::cerr << "Failed to load " << name << " :: Error Code :: " << error_code << std::endl;
+        }
+    }
+}
 
 #endif
